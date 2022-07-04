@@ -16,8 +16,21 @@ class CenBlock:
 
         return safe_surs
 
+    def is_wall_safe(self, deleted_list):
+        for s_num in self.surs_:
+            if s_num == WALL:
+                continue
+            elif deleted_list[s_num]:
+                continue
+            else:
+                return True
 
-#TODO 에라 모르겠
+        if self.sur_cnt_ > 2:
+            return True
+        else:
+            return False
+
+# TODO 에라 모르겠
 '''
 
 1단계
@@ -41,17 +54,17 @@ defta_f는 sur_b 들이 가지는 값
 
 ########################################################################
 
-#블록 번호 관련 전역변수
+# 블록 번호 관련 전역변수
 WALL = 37
 CENTER = 18
 BLOCKS = []
 
-#블록 삭제 관련 전역변수
+# 블록 삭제 관련 전역변수
 IS_BLOCK_DELETED = [False]*38
-WEIGHT = 60 #(= 1~6 최소공배수)
+WEIGHT = 60 # (= 1~6 최소공배수)
 THRESHOLD = 20
 
-#블록 절대번호 상대번호 입력
+# 블록 절대번호 상대번호 입력
 BLOCKS.append(CenBlock(0, [WALL, WALL, 1, 5, 4, WALL]))
 BLOCKS.append(CenBlock(1, [WALL, WALL, 2, 6, 5, 0]))
 BLOCKS.append(CenBlock(2, [WALL, WALL, WALL, 7, 6, 1]))
@@ -92,7 +105,7 @@ BLOCKS.append(CenBlock(34, [29, 30, 35, WALL, WALL, WALL]))
 BLOCKS.append(CenBlock(35, [30, 31, 36, WALL, WALL, 34]))
 BLOCKS.append(CenBlock(36, [31, 32, WALL, WALL, WALL, 35]))
 
-#블록 좌표 관련 전역변수
+# 블록 좌표 관련 전역변수
 BLOCKWID = 69
 BLOCKHEI = 80
 BLOCKWIDGAP = 73.2
@@ -102,7 +115,7 @@ FIRSTBLOCKPOS = (228, 69)
 THIRDBLOCKPOS = (118.5, 133)
 BLOCKPOSBOX = []
 
-#블록 좌표 입력
+# 블록 좌표 입력
 white_pos = list(FIRSTBLOCKPOS)
 blue_pos = list(THIRDBLOCKPOS)
 

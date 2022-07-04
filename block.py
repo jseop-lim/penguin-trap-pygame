@@ -1,5 +1,5 @@
 class SurBlock:
-    def __init__(self, num, force=1):
+    def __init__(self, num, force=0):
         self.num_ = num
         self.force_ = force
         self.skipped_ = False
@@ -54,11 +54,9 @@ class CenBlock:
                 return True
             if not IS_BLOCK_DELETED[sur_block.num_]:
                 this_case[num] = True
-
         safe_case = [[True, False, True, False, True, False], [False, True, False, True, False, True]]
         if this_case in safe_case:
             return True
-        
         return False
 
 
@@ -67,7 +65,9 @@ class CenBlock:
 #블록 번호 관련 전역변수
 WALL = 37
 CENTER = 18
+WEIGHT = 10
 BLOCKS = []
+
 IS_BLOCK_DELETED = [False] * 38
 
 #블록 절대번호 상대번호 입력

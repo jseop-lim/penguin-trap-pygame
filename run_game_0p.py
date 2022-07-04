@@ -30,15 +30,16 @@ def run_game(game_mode):
         draw_selected(block_num, turn)
         pygame.display.update()
 
-        pygame.time.delay(650)
+        # todo temp
+        pygame.time.delay(300)
         delete_block(block_num)
 
+        game_over = is_game_over(penguin_poses)
         turn = next_turn(turn)
         # todo temp
         show_sur_cnt()
         block_num = get_ai_block_num(penguin_poses)
 
-        game_over = is_game_over(penguin_poses)
         pygame.display.update()
         FPSCLOCK.tick(FPS)
 

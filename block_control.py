@@ -22,6 +22,8 @@ def is_game_over(p_poses):
 def delete_block(c_num):
     # if not is_deletable(num):
     #     return
+    # todo temp
+    print()
 
     if c_num == WALL:
         return
@@ -43,6 +45,7 @@ def delete_block(c_num):
     for s_num in c_surs:
         if not is_safe(s_num):
             delete_block(s_num)
+    #todo temp
     print()
 
 
@@ -55,8 +58,19 @@ def get_net_force(c_num):
         s_f = WEIGHT / BLOCKS[s_num].sur_cnt_
         net_f += abs(c_f - s_f)
 
+    w_num = BLOCKS[c_num].surs_.count(WALL)
+
+    if c_f == 20:
+        net_f += 3
+    if w_num == 2:
+        net_f += 3
+    elif w_num == 1:
+        net_f += 2
+
     # todo temp
-    # print('(%d) - ' %net_f, end='')
+    print('<%d>' % BLOCKS[c_num].surs_.count(WALL), end='')
+    print('(%d) - ' %net_f, end='')
+
 
     return net_f
 
@@ -91,7 +105,7 @@ def show_sur_cnt():
 # 블록 생존여부 반환
 def is_safe(c_num):
     # todo temp
-    # print(c_num, end='')
+    print(c_num, end='')
     # 지워진 블록을 다시 순회
     # todo modified
     if BLOCKS[c_num].sur_cnt_ <= 2:

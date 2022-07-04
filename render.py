@@ -9,8 +9,8 @@ WINWIDTH = 600
 WINHEIGHT = 600
 WHITE = (255, 255, 255)
 
-PLAYER1 = 0
-PLAYER2 = 1
+PLAYER1 = PLAYER = 0
+PLAYER2 = COMPUTER = 1
 
 MODE_BASE = 1
 MODE_POS = 2
@@ -35,14 +35,13 @@ IMGBOX = {  'start': pygame.image.load('picture/start.png'),
                             pygame.image.load('picture/player2_icon.png')],
             'deleted': pygame.image.load('picture/deleted.png'),
             'skipped': pygame.image.load('picture/skipped.png'),
-            'end': [pygame.image.load('picture/end1.png'),
-                    pygame.image.load('picture/end2.png')]
          }
 
 # key 번호 딕셔너리
 K_NUMBOX = {K_1: 1, K_2: 2, K_3: 3,
             K_4: 4, K_5: 5, K_6: 6,
             K_7: 7, K_8: 8, K_9: 9}
+
 
 # pygame 초기화
 pygame.init()
@@ -77,29 +76,12 @@ def is_setting_hover(pos):
         return False
 
 
-# 블록이 제거가능한지 판단
-def is_deletable(num, p_poses):
-    if num==WALL or num in p_poses or IS_BLOCK_DELETED[num]:
-        return False
-    else:
-        return True
-
-
 # 다음턴 사용자 반환
 def next_turn(turn):
     if turn == 0:
         return 1
     else:
         return 0
-
-
-# 게임 종료 조건 확인
-def is_game_over(p_poses):
-    for p_pos in p_poses:
-        if IS_BLOCK_DELETED[p_pos]:
-            return True
-    else:
-        return False
 
 
 # 블록 위에 마우스 올렸을 때 highlight

@@ -62,7 +62,8 @@ BLOCKS = []
 # 블록 삭제 관련 전역변수
 IS_BLOCK_DELETED = [False]*38
 WEIGHT = 60 # (= 1~6 최소공배수)
-THRESHOLD = 20
+# todo 수정함
+THRESHOLD = 18
 
 # 블록 절대번호 상대번호 입력
 BLOCKS.append(CenBlock(0, [WALL, WALL, 1, 5, 4, WALL]))

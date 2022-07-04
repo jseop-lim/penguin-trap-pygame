@@ -1,5 +1,5 @@
 from block import *
-
+from render import *
 
 # 블록이 제거가능한지 판단
 def is_deletable(num, p_poses):
@@ -36,6 +36,7 @@ def delete_block(c_num):
     # delete_cen_block
     IS_BLOCK_DELETED[c_num] = True
     BLOCKS[c_num].sur_cnt_ = 0
+    draw_delete_temp(c_num)
 
     # delete_sur_block
     c_surs = BLOCKS[c_num].get_safe_sur_num(IS_BLOCK_DELETED)
@@ -68,8 +69,8 @@ def get_net_force(c_num):
         net_f += 2
 
     # todo temp
-    print('<%d>' % BLOCKS[c_num].surs_.count(WALL), end='')
-    print('(%d) - ' %net_f, end='')
+    # print('<%d>' % BLOCKS[c_num].surs_.count(WALL), end='')
+    # print('(%d) - ' %net_f, end='')
 
 
     return net_f
@@ -105,7 +106,7 @@ def show_sur_cnt():
 # 블록 생존여부 반환
 def is_safe(c_num):
     # todo temp
-    print(c_num, end='')
+    # print(c_num, end='')
     # 지워진 블록을 다시 순회
     # todo modified
     if BLOCKS[c_num].sur_cnt_ <= 2:

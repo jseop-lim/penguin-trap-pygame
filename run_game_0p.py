@@ -31,7 +31,7 @@ def run_game(game_mode):
         pygame.display.update()
 
         # todo temp
-        pygame.time.delay(300)
+        pygame.time.delay(500)
         delete_block(block_num)
 
         game_over = is_game_over(penguin_poses)

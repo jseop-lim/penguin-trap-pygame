@@ -16,6 +16,20 @@ MODE_BASE = 1
 MODE_POS = 2
 MODE_NUM = 3
 
+
+# key 번호 딕셔너리
+K_NUMBOX = {K_1: 1, K_2: 2, K_3: 3,
+            K_4: 4, K_5: 5, K_6: 6,
+            K_7: 7, K_8: 8, K_9: 9}
+
+
+# pygame 초기화
+pygame.init()
+FPSCLOCK = pygame.time.Clock()
+DISPLAYSURF = pygame.display.set_mode((WINWIDTH, WINHEIGHT))
+pygame.display.set_caption('남극의 펭귄을 지켜라~!')
+
+
 # 이미지 로드
 IMGBOX = {  'start': pygame.image.load('picture/start.png'),
             'start_text': pygame.image.load('picture/start_text.png'),
@@ -36,18 +50,6 @@ IMGBOX = {  'start': pygame.image.load('picture/start.png'),
             'deleted': pygame.image.load('picture/deleted.png'),
             'skipped': pygame.image.load('picture/skipped.png'),
          }
-
-# key 번호 딕셔너리
-K_NUMBOX = {K_1: 1, K_2: 2, K_3: 3,
-            K_4: 4, K_5: 5, K_6: 6,
-            K_7: 7, K_8: 8, K_9: 9}
-
-
-# pygame 초기화
-pygame.init()
-FPSCLOCK = pygame.time.Clock()
-DISPLAYSURF = pygame.display.set_mode((WINWIDTH, WINHEIGHT))
-pygame.display.set_caption('남극의 펭귄을 지켜라~!')
 
 
 # pygame 및 프로그램 종료
@@ -92,12 +94,21 @@ def draw_selected(num, player):
     DISPLAYSURF.blit(IMGBOX['selected'][player], BLOCKPOSBOX[num])
 
 
-# 삭제된 블록에 덧칠
+# 삭제된 블록에 덧칠(전체)
 def draw_deleted():
     for num in range(37):
         if IS_BLOCK_DELETED[num]:
             x, y = BLOCKPOSBOX[num]
             DISPLAYSURF.blit(IMGBOX['deleted'], (x-4, y-4.5))
+
+
+# 삭제된 블록에 덧칠(재귀 도중, 1개)
+def draw_delete_temp(c_num):
+    x, y = BLOCKPOSBOX[c_num]
+    DISPLAYSURF.blit(IMGBOX['deleted'], (x - 4, y - 4.5))
+    pygame.display.flip()
+    pygame.time.delay(350)
+    FPSCLOCK.tick(FPS)
 
 
 # 펭귄 그리기

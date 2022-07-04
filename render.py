@@ -12,16 +12,22 @@ WHITE = (255, 255, 255)
 PLAYER1 = 0
 PLAYER2 = 1
 
+MODE_BASE = 1
+MODE_POS = 2
+MODE_NUM = 3
+
 # 이미지 로드
 IMGBOX = {  'start': pygame.image.load('picture/start.png'),
             'start_text': pygame.image.load('picture/start_text.png'),
             'setting': [pygame.image.load('picture/setting.png'),
                         pygame.image.load('picture/setting_mode1.png'),
-                        pygame.image.load('picture/setting_mode2.png')],
+                        pygame.image.load('picture/setting_mode2.png'),
+                        pygame.image.load('picture/setting_mode3.png')],
             'setting_btn': [pygame.image.load('picture/setting_btn_in.png'),
                             pygame.image.load('picture/setting_btn_out.png')],
             'board': pygame.image.load('picture/board.png'),
-            'board_text': pygame.image.load('picture/board_text.png'),
+            'board_text_pos': pygame.image.load('picture/board_text_pos.png'),
+            'board_text_num': pygame.image.load('picture/board_text_num.png'),
             'penguin': pygame.image.load('picture/penguin_cute.png'),
             'selected': [pygame.image.load('picture/selected1.png'),
                          pygame.image.load('picture/selected2.png')],
@@ -32,6 +38,11 @@ IMGBOX = {  'start': pygame.image.load('picture/start.png'),
             'end': [pygame.image.load('picture/end1.png'),
                     pygame.image.load('picture/end2.png')]
          }
+
+# key 번호 딕셔너리
+K_NUMBOX = {K_1: 1, K_2: 2, K_3: 3,
+            K_4: 4, K_5: 5, K_6: 6,
+            K_7: 7, K_8: 8, K_9: 9}
 
 # pygame 초기화
 pygame.init()
@@ -59,16 +70,16 @@ def blink_text(timer, img_name):
 
 # 세팅 버튼 위에 마우스 놓였는지 반환
 def is_setting_hover(pos):
-    posx, posy = pos
-    if posx>=438 and posx<=477 and posy>=523 and posy<=562:
+    x, y = pos
+    if 438 <= x <=477 and 523 <= y <= 562:
         return True
     else:
         return False
 
 
 # 블록이 제거가능한지 판단
-def is_deletable(num, center):
-    if num==WALL or num==center or IS_BLOCK_DELETED[num]:
+def is_deletable(num, p_poses):
+    if num==WALL or num in p_poses or IS_BLOCK_DELETED[num]:
         return False
     else:
         return True
@@ -83,9 +94,10 @@ def next_turn(turn):
 
 
 # 게임 종료 조건 확인
-def is_game_over(center):
-    if IS_BLOCK_DELETED[center]:
-        return True
+def is_game_over(p_poses):
+    for p_pos in p_poses:
+        if IS_BLOCK_DELETED[p_pos]:
+            return True
     else:
         return False
 
@@ -107,21 +119,20 @@ def draw_deleted():
 
 
 # 펭귄 그리기
-def draw_penguin(num):
+def draw_penguin(p_poses):
     PENGUINWID_HALF = PENGUINHEI_HALF = 33
-
-    posx, posy = BLOCKPOSBOX[num]
-    posx = posx + BLOCKWID/2 - PENGUINWID_HALF
-    posy = posy + BLOCKHEI/2 - PENGUINHEI_HALF
-    DISPLAYSURF.blit(IMGBOX['penguin'], (posx, posy))
+    for p_pos in p_poses:
+        x, y = BLOCKPOSBOX[p_pos]
+        x = x + BLOCKWID/2 - PENGUINWID_HALF
+        y = y + BLOCKHEI/2 - PENGUINHEI_HALF
+        DISPLAYSURF.blit(IMGBOX['penguin'], (x, y))
 
 
 # 좌표로부터 설정번호 반환
 def get_setting_num_at_pos(pos):
     SETTEXTWID = 110
     SETTEXTHEI = 19
-    SETPOSBOX = [(244, 260), (244, 320)]
-    # 원래 mode2: (244, 290)
+    SETPOSBOX = [(244, 260), (244, 290), (244, 320)]
 
     for set_num in range(len(SETPOSBOX)):
         left, top = SETPOSBOX[set_num]

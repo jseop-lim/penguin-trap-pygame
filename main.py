@@ -62,15 +62,38 @@ def setting():
         FPSCLOCK.tick(FPS)
 
 
-# 펭귄 위치 반환
-def get_center(game_mode):
-    if game_mode != 2:
-        return CENTER
+# 펭귄 개수 반환
+def get_penguin_num(mode):
+    if mode < MODE_NUM:
+        return 1
 
     timer = 0
     while True:
-        DISPLAYSURF.blit(IMGBOX['board_text'], (0, 0))
+        DISPLAYSURF.blit(IMGBOX['board_text_num'], (0, 0))
         timer = blink_text(timer, 'board')
+
+        for event in pygame.event.get():
+            if event.type == QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
+                terminate()
+            elif event.type == KEYDOWN:
+                if event.key in K_NUMBOX:
+                    return K_NUMBOX[event.key]
+
+        pygame.display.update()
+        FPSCLOCK.tick(FPS)
+
+
+# 펭귄 위치 반환
+def get_penguin_poses(mode, p_num):
+    if mode < MODE_POS:
+        return [CENTER]
+
+    p_poses = []
+    timer = 0
+    while len(p_poses) < p_num:
+        DISPLAYSURF.blit(IMGBOX['board_text_pos'], (0, 0))
+        timer = blink_text(timer, 'board')
+        draw_penguin(p_poses)
         is_clicked = False
         mouse_pos = pygame.mouse.get_pos()
 
@@ -82,26 +105,29 @@ def get_center(game_mode):
 
         block_num = get_block_num_at_pos(mouse_pos)
 
-        if block_num != WALL:
+        if block_num != WALL and block_num not in p_poses:
             if is_clicked:
-                return block_num
+                p_poses.append(block_num)
             else:
-                draw_penguin(block_num)
+                draw_penguin([block_num])
 
         pygame.display.update()
         FPSCLOCK.tick(FPS)
 
+    return p_poses
+
 
 # 메인 루프
 def run_game(game_mode):
-    game_over = False
-    center = get_center(game_mode)
+    penguin_num = get_penguin_num(game_mode)
+    penguin_poses = get_penguin_poses(game_mode, penguin_num)
     turn = random.choice([PLAYER1, PLAYER2])
 
+    game_over = False
     while not game_over:
         DISPLAYSURF.blit(IMGBOX['board'], (0, 0))
         DISPLAYSURF.blit(IMGBOX['player_icon'][turn], (0, 0))
-        draw_penguin(center)
+        draw_penguin(penguin_poses)
         draw_deleted()
 
         is_clicked = False
@@ -115,15 +141,15 @@ def run_game(game_mode):
 
         block_num = get_block_num_at_pos(mouse_pos)
 
-        if not is_clicked and is_deletable(block_num, center):
+        if not is_clicked and is_deletable(block_num, penguin_poses):
             draw_selected(block_num, turn)
-        if is_clicked and is_deletable(block_num, center):
+        if is_clicked and is_deletable(block_num, penguin_poses):
             delete_block(block_num)
             turn = next_turn(turn)
             # todo temp
             show_sur_cnt()
 
-        game_over = is_game_over(center)
+        game_over = is_game_over(penguin_poses)
         pygame.display.update()
         FPSCLOCK.tick(FPS)
 

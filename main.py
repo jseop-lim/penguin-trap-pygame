@@ -27,12 +27,15 @@ def run_game():
 
         if not is_clicked and is_deletable(block_num):
             draw_selected(block_num, turn)
-            draw_skipped(block_num)
+            #draw_skipped(block_num)
         if is_clicked and is_deletable(block_num):
             delete_block(block_num)
             turn = next_turn(turn)
+            #todo 출력용
+            show_sur_cnt()
 
-        game_over = is_game_over()
+        #todo temp
+        # game_over = is_game_over()
 
         pygame.display.update()
         FPSCLOCK.tick(FPS)

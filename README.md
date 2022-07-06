@@ -5,8 +5,9 @@
 ## Table of Contents
 
 - [Background](#background)
-- [Install](#install)
+- [Quickstart](#quickstart)
 - [Usage](#usage)
+- [Technology Stack](#technology-stack)
 - [Contributors](#contributors)
 
 ## Background
@@ -17,7 +18,7 @@
 
 추가로 exe 파일로 변환하는 내용을 commit 했다.
 
-## QuickStart
+## Quickstart
 
 *세 가지* 방법으로 실행 파일을 설치 및 실행할 수 있다.
 
